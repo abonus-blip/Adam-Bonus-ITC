@@ -1,0 +1,695 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Introduction to Computing Assignments</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Playful sticker look on soft charcoal: each assignment owns one bright color, chunky buttons with hard shadows, slightly tilted tiles, drifting math symbols behind the title. */
+:root {
+  --bg: #1E1F22;
+  --surface: #2A2B2F;
+  --ink: #F2F2F0;
+  --muted: #A8ABB2;
+  --line: #43454C;
+  --field: #1E1F22;
+  --err: #FF8A80;
+  --c1: #FF7A59;
+  --c2: #FFD23F;
+  --c3: #5CD6B0;
+  --c4: #FF84BC;
+  --c5: #6CB8FF;
+  --a: var(--c2);
+  --a-ink: #1E1F22;
+  --a-soft: color-mix(in srgb, var(--a) 16%, var(--surface));
+  --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+.c1 { --a: var(--c1); }
+.c2 { --a: var(--c2); }
+.c3 { --a: var(--c3); }
+.c4 { --a: var(--c4); }
+.c5 { --a: var(--c5); }
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font: 15px/1.55 var(--font-body);
+  padding-block: 28px 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 960px; margin-inline: auto; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; line-height: 1.1; margin: 0; }
+h1 { font-size: clamp(2rem, 6.5vw, 3.5rem); font-weight: 800; letter-spacing: -0.02em; }
+h2 { font-size: clamp(1.9rem, 5.5vw, 2.8rem); font-weight: 800; letter-spacing: -0.02em; }
+h3 { font-size: 1.15rem; font-weight: 700; }
+p { margin: 0; }
+[hidden] { display: none !important; }
+.hint { color: var(--muted); font-size: 0.8rem; }
+
+/* Stickers, headings */
+.sticker {
+  display: inline-block; justify-self: start;
+  font: 600 0.72rem/1 var(--font-mono); letter-spacing: 0.07em; text-transform: uppercase;
+  padding: 0.4rem 0.7rem; border-radius: 999px;
+  background: var(--a); color: var(--a-ink); transform: rotate(-2deg);
+}
+.view-head { display: grid; gap: 12px; justify-items: start; margin-block: 28px 26px; }
+.view-head h2::after { content: ""; display: block; width: 88px; height: 8px; margin-top: 12px; border-radius: 99px; background: var(--a); }
+.lede { color: var(--muted); max-width: 60ch; font-size: 1.02rem; }
+
+/* Hero */
+.hero { position: relative; display: grid; gap: 16px; justify-items: start; margin-block: 16px 34px; padding-block: 12px; overflow: clip; }
+.hero > *:not(.floaters) { position: relative; z-index: 1; }
+.floaters { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.floaters span { position: absolute; font: 800 clamp(2rem, 6vw, 3.6rem)/1 var(--font-display); opacity: 0.2; animation: drift 7s ease-in-out infinite; }
+.floaters span:nth-child(1) { left: 66%; top: 2%;  color: var(--c1); }
+.floaters span:nth-child(2) { left: 88%; top: 18%; color: var(--c2); animation-delay: -2s; }
+.floaters span:nth-child(3) { left: 74%; top: 56%; color: var(--c3); animation-delay: -4s; }
+.floaters span:nth-child(4) { left: 50%; top: 72%; color: var(--c4); animation-delay: -1s; }
+.floaters span:nth-child(5) { left: 92%; top: 64%; color: var(--c5); animation-delay: -3s; }
+.floaters span:nth-child(6) { left: 4%;  top: 78%; color: var(--c2); animation-delay: -5s; }
+.floaters span:nth-child(7) { left: 36%; top: 6%;  color: var(--c5); animation-delay: -2.5s; }
+.floaters span:nth-child(8) { left: 82%; top: 84%; color: var(--c1); animation-delay: -6s; }
+@keyframes drift { 0%, 100% { translate: 0 0; rotate: -6deg; } 50% { translate: 0 -14px; rotate: 7deg; } }
+h1 mark { display: inline-block; background: var(--c2); color: var(--bg); padding: 0 0.2em; border-radius: 0.2em; transform: rotate(-1.5deg); }
+.byline { display: inline-block; background: var(--c4); color: var(--bg); font: 700 1rem/1.2 var(--font-display); padding: 0.4rem 0.9rem; border-radius: 999px; transform: rotate(-2deg); }
+.bubble { position: relative; max-width: 62ch; background: var(--surface); border: 2px solid var(--line); border-radius: 18px; padding: 16px 20px; margin-top: 6px; font-size: 1.02rem; }
+.bubble::before { content: ""; position: absolute; left: 30px; top: -10px; width: 16px; height: 16px; background: var(--surface); border-left: 2px solid var(--line); border-top: 2px solid var(--line); transform: rotate(45deg); }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  font: inherit; font-weight: 700; font-size: 0.95rem; text-decoration: none; cursor: pointer;
+  padding: 0.65rem 1.1rem; border-radius: 12px;
+  border: 2px solid var(--ink); background: var(--a); color: var(--a-ink);
+  box-shadow: 4px 4px 0 var(--ink);
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+.btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
+.btn:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--ink); }
+.btn.ghost { background: var(--surface); color: var(--ink); border-color: var(--line); box-shadow: 4px 4px 0 var(--a); }
+.btn.ghost:hover { box-shadow: 6px 6px 0 var(--a); }
+.btn.ghost:active { box-shadow: 1px 1px 0 var(--a); }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+/* Layout helpers */
+.grid { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+.grid.two { grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr)); }
+.grid.one { grid-template-columns: 1fr; }
+
+/* Home tiles */
+.tile {
+  position: relative; overflow: hidden; display: grid; gap: 12px; align-content: start; min-width: 0;
+  padding: 22px; background: var(--surface); color: inherit; text-decoration: none;
+  border: 2px solid var(--a); border-radius: 18px; box-shadow: 6px 6px 0 var(--a);
+  transform: rotate(var(--tilt, 0deg));
+  transition: transform 0.2s cubic-bezier(0.3, 1.6, 0.5, 1), box-shadow 0.2s;
+  animation: rise 0.5s cubic-bezier(0.3, 1.4, 0.5, 1) backwards;
+}
+.tile:nth-child(1) { --tilt: -1.2deg; animation-delay: 0.05s; }
+.tile:nth-child(2) { --tilt: 1deg;    animation-delay: 0.12s; }
+.tile:nth-child(3) { --tilt: 0.8deg;  animation-delay: 0.19s; }
+.tile:nth-child(4) { --tilt: -1deg;   animation-delay: 0.26s; }
+@keyframes rise { from { translate: 0 18px; } to { translate: 0 0; } }
+.tile:hover { transform: rotate(0deg) translate(-3px, -3px); box-shadow: 10px 10px 0 var(--a); }
+.tile:active { transform: translate(3px, 3px); box-shadow: 2px 2px 0 var(--a); }
+.tile .glyph { position: absolute; right: 16px; top: 6px; font: 800 5.5rem/1 var(--font-display); color: transparent; -webkit-text-stroke: 2px var(--a); opacity: 0.45; pointer-events: none; }
+.tile h3 { font-size: 1.5rem; padding-right: 4rem; }
+.tile .formula { font: 500 0.85rem/1.4 var(--font-mono); color: var(--a); background: var(--bg); padding: 0.5rem 0.7rem; border-radius: 8px; overflow-wrap: anywhere; }
+.tile .go { font-weight: 700; color: var(--a); }
+.tile .go span { display: inline-block; transition: transform 0.15s; }
+.tile:hover .go span { transform: translateX(6px); }
+.foot { margin-top: 34px; color: var(--muted); font-size: 0.85rem; }
+
+/* Cards and forms */
+.card { display: grid; gap: 14px; align-content: start; min-width: 0; background: var(--surface); border: 2px solid var(--line); border-radius: 16px; padding: 20px; }
+.formula-line { font: 500 0.82rem/1.4 var(--font-mono); color: var(--a); }
+.field { display: grid; gap: 6px; min-width: 0; }
+label { font-weight: 600; font-size: 0.85rem; }
+input, select {
+  width: 100%; min-width: 0; font: inherit; font-size: 1rem;
+  padding: 0.6rem 0.75rem; border: 2px solid var(--line); border-radius: 10px;
+  background: var(--field); color: var(--ink);
+}
+input:focus, select:focus { border-color: var(--a); }
+.row { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
+.grow { flex: 1 1 160px; }
+.fields { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.chips .hint { margin-right: 4px; }
+.chip { font: 600 0.85rem/1 var(--font-mono); padding: 0.5rem 0.8rem; border-radius: 999px; border: 2px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; transition: transform 0.12s, border-color 0.12s; }
+.chip:hover { border-color: var(--a); transform: translateY(-2px) rotate(-2deg); }
+
+/* Results */
+.out { padding: 12px 14px; border-radius: 12px; background: var(--a-soft); border: 2px dashed color-mix(in srgb, var(--a) 55%, transparent); font-family: var(--font-mono); font-size: 1rem; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.out strong { display: inline-block; font-size: 1.4rem; font-weight: 500; color: var(--a); animation: pop 0.3s cubic-bezier(0.3, 1.7, 0.5, 1); }
+.remark { color: var(--muted); font-size: 0.9rem; margin-top: 6px; }
+.msg.err { color: var(--err); font-weight: 500; }
+@keyframes pop { from { scale: 0.85; } to { scale: 1; } }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); gap: 12px; margin: 0; }
+.stats div { padding: 12px 14px; background: var(--bg); border-radius: 12px; min-width: 0; }
+.stats dt { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.stats dd { margin: 4px 0 0; font: 500 1.15rem/1.25 var(--font-mono); overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.stats .hot dd { color: var(--a); }
+
+.bar { display: flex; height: 22px; border-radius: 99px; overflow: hidden; border: 2px solid var(--line); background: var(--bg); }
+.bar span { display: block; height: 100%; min-width: 0; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 0.82rem; color: var(--muted); }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; }
+.takehome { display: grid; gap: 2px; }
+.takehome strong { justify-self: start; font: 500 clamp(1.8rem, 6vw, 2.4rem)/1.15 var(--font-mono); color: var(--a); overflow-wrap: anywhere; animation: pop 0.3s cubic-bezier(0.3, 1.7, 0.5, 1); }
+
+.table-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+th, td { padding: 0.6rem 0.5rem; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 600; }
+td.num, th.num { text-align: right; }
+tr.top td { background: var(--a-soft); }
+tr.group td { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 600; border-bottom: none; padding-top: 1rem; }
+tr.sum td { font-weight: 600; }
+tr.net td { background: var(--a-soft); color: var(--a); font-size: 1.1rem; font-weight: 700; border-bottom: none; }
+
+.result-big { font: 500 1.6rem/1.2 var(--font-mono); color: var(--a); overflow-wrap: anywhere; word-break: break-all; font-variant-numeric: tabular-nums; display: inline-block; justify-self: start; animation: pop 0.3s cubic-bezier(0.3, 1.7, 0.5, 1); }
+.result-scroll { max-height: 9rem; overflow-y: auto; padding: 10px 12px; background: var(--bg); border-radius: 10px; font: 500 0.95rem/1.45 var(--font-mono); color: var(--a); word-break: break-all; }
+.trace { font: 400 0.85rem/1.5 var(--font-mono); color: var(--muted); overflow-wrap: anywhere; }
+pre { margin: 0; padding: 12px; background: var(--bg); border-radius: 10px; overflow-x: auto; font: 400 0.8rem/1.5 var(--font-mono); color: var(--ink); }
+.note { color: var(--muted); font-size: 0.82rem; max-width: 70ch; }
+
+.bottombar { margin-top: 30px; padding-top: 22px; border-top: 2px dashed var(--line); }
+.confetti { position: fixed; width: 8px; height: 12px; border-radius: 2px; pointer-events: none; z-index: 50; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
+
+<div class="wrap">
+
+  <!-- HOME -->
+  <section id="home" data-view>
+    <header class="hero">
+      <div class="floaters" aria-hidden="true"><span>+</span><span>×</span><span>π</span><span>÷</span><span>=</span><span>01</span><span>√</span><span>%</span></div>
+      <h1>Introduction to <mark>Computing</mark> Assignments</h1>
+      <p class="byline">by Adam Franco M. Bonus</p>
+      <div class="bubble"><p>Welcome! I’m Adam Franco M. Bonus, and this is my personal website showcasing the four Introduction to Computing assignments in the first semester. Enjoy!</p></div>
+    </header>
+    <div class="grid two">
+      <a class="tile c1" href="#conversion" data-nav="conversion">
+        <span class="glyph" aria-hidden="true">°</span>
+        <span class="sticker">Assignment #1</span>
+        <h3>Conversion</h3>
+        <p>Hot or cold, near or far. Celsius, Fahrenheit, meters and feet, both ways.</p>
+        <p class="formula">°F = °C × 9/5 + 32</p>
+        <span class="go">Open <span>→</span></span>
+      </a>
+      <a class="tile c2" href="#income-tax" data-nav="income-tax">
+        <span class="glyph" aria-hidden="true">%</span>
+        <span class="sticker">Assignment #2</span>
+        <h3>Income Tax Calculator</h3>
+        <p>See how much goes to tax, slice by slice, and how much you keep.</p>
+        <p class="formula">tax = base + rate × (income − floor)</p>
+        <span class="go">Open <span>→</span></span>
+      </a>
+      <a class="tile c3" href="#loops" data-nav="loops">
+        <span class="glyph" aria-hidden="true">n!</span>
+        <span class="sticker">Assignment #3</span>
+        <h3>Factorial, Sum and Average</h3>
+        <p>Three loops, three answers: while, do-while and for.</p>
+        <p class="formula">n! = n × (n − 1) × … × 1</p>
+        <span class="go">Open <span>→</span></span>
+      </a>
+      <a class="tile c4" href="#payroll" data-nav="payroll">
+        <span class="glyph" aria-hidden="true">₱</span>
+        <span class="sticker">Assignment #4</span>
+        <h3>Simple Payroll</h3>
+        <p>Payday math laid out like a real payslip, overtime and all.</p>
+        <p class="formula">net = gross − deductions</p>
+        <span class="go">Open <span>→</span></span>
+      </a>
+    </div>
+    <p class="foot">Adam Franco M. Bonus · Introduction to Computing · First semester</p>
+  </section>
+
+  <!-- ASSIGNMENT 1 -->
+  <section id="conversion" class="c1" data-view hidden>
+    <nav><a class="btn ghost" href="#home" data-nav="home">← Back to Homepage</a></nav>
+    <header class="view-head">
+      <span class="sticker">Assignment #1</span>
+      <h2>Conversion</h2>
+      <p class="lede">Type a value and press Convert. It also updates as you type.</p>
+    </header>
+    <div class="grid two" id="conv-grid"></div>
+    <div class="bottombar"><a class="btn ghost" href="#home" data-nav="home">← Back to Homepage</a></div>
+  </section>
+
+  <!-- ASSIGNMENT 2 -->
+  <section id="income-tax" class="c2" data-view hidden>
+    <nav><a class="btn ghost" href="#home" data-nav="home">← Back to Homepage</a></nav>
+    <header class="view-head">
+      <span class="sticker">Assignment #2</span>
+      <h2>Income Tax Calculator</h2>
+      <p class="lede">Enter your taxable income in pesos. Each slice of income is taxed at its own bracket rate.</p>
+    </header>
+    <div class="grid one">
+      <form class="card" id="tax-form" novalidate>
+        <div class="fields">
+          <div class="field">
+            <label for="tax-income">Taxable income (₱)</label>
+            <input id="tax-income" type="number" inputmode="decimal" step="any" min="0" value="600000">
+          </div>
+          <div class="field">
+            <label for="tax-period">Income is per</label>
+            <select id="tax-period">
+              <option value="annual">Year</option>
+              <option value="monthly">Month</option>
+            </select>
+          </div>
+        </div>
+        <div><button class="btn" type="submit">Calculate tax</button></div>
+      </form>
+      <div class="card" id="tax-out" aria-live="polite"></div>
+    </div>
+    <div class="bottombar"><a class="btn ghost" href="#home" data-nav="home">← Back to Homepage</a></div>
+  </section>
+
+  <!-- ASSIGNMENT 3 -->
+  <section id="loops" class="c3" data-view hidden>
+    <nav><a class="btn ghost" href="#home" data-nav="home">← Back to Homepage</a></nav>
+    <header class="view-head">
+      <span class="sticker">Assignment #3</span>
+      <h2>Factorial, Sum and Average</h2>
+      <p class="lede">Pick N, a whole number from 1 to 1000, and watch three kinds of loop crunch it.</p>
+    </header>
+    <div class="grid one">
+      <form class="card" id="loops-form" novalidate>
+        <div class="row">
+          <div class="field grow">
+            <label for="loops-n">N (first N natural numbers)</label>
+            <input id="loops-n" type="number" inputmode="numeric" step="1" min="1" max="1000" value="5">
+          </div>
+          <button class="btn" type="submit">Compute</button>
+        </div>
+        <div class="chips" id="loops-chips"></div>
+      </form>
+      <div id="loops-out" aria-live="polite"></div>
+    </div>
+    <div class="bottombar"><a class="btn ghost" href="#home" data-nav="home">← Back to Homepage</a></div>
+  </section>
+
+  <!-- ASSIGNMENT 4 -->
+  <section id="payroll" class="c4" data-view hidden>
+    <nav><a class="btn ghost" href="#home" data-nav="home">← Back to Homepage</a></nav>
+    <header class="view-head">
+      <span class="sticker">Assignment #4</span>
+      <h2>Simple Payroll</h2>
+      <p class="lede">Enter hours and rate for one pay period. Overtime is paid at 1.25 times the hourly rate. The deduction rates are examples you can edit.</p>
+    </header>
+    <div class="grid one">
+      <form class="card" id="pay-form" novalidate>
+        <h3>Hours and pay</h3>
+        <div class="fields">
+          <div class="field">
+            <label for="pr-name">Employee name</label>
+            <input id="pr-name" type="text" value="Juan Dela Cruz" autocomplete="off">
+          </div>
+          <div class="field">
+            <label for="pr-hours">Regular hours</label>
+            <input id="pr-hours" type="number" inputmode="decimal" step="any" min="0" value="80">
+          </div>
+          <div class="field">
+            <label for="pr-ot">Overtime hours</label>
+            <input id="pr-ot" type="number" inputmode="decimal" step="any" min="0" value="6">
+          </div>
+          <div class="field">
+            <label for="pr-rate">Hourly rate (₱)</label>
+            <input id="pr-rate" type="number" inputmode="decimal" step="any" min="0" value="150">
+          </div>
+        </div>
+        <h3>Deductions</h3>
+        <div class="fields">
+          <div class="field">
+            <label for="pr-sss">SSS (% of gross)</label>
+            <input id="pr-sss" type="number" inputmode="decimal" step="any" min="0" max="100" value="4.5">
+          </div>
+          <div class="field">
+            <label for="pr-ph">PhilHealth (% of gross)</label>
+            <input id="pr-ph" type="number" inputmode="decimal" step="any" min="0" max="100" value="2.5">
+          </div>
+          <div class="field">
+            <label for="pr-pagibig">Pag-IBIG (₱ fixed)</label>
+            <input id="pr-pagibig" type="number" inputmode="decimal" step="any" min="0" value="200">
+          </div>
+          <div class="field">
+            <label for="pr-tax">Withholding tax (% of gross)</label>
+            <input id="pr-tax" type="number" inputmode="decimal" step="any" min="0" max="100" value="5">
+          </div>
+        </div>
+        <div><button class="btn" type="submit">Compute payroll</button></div>
+      </form>
+      <div class="card" id="pay-out" aria-live="polite"></div>
+    </div>
+    <div class="bottombar"><a class="btn ghost" href="#home" data-nav="home">← Back to Homepage</a></div>
+  </section>
+
+</div>
+
+<script>
+/* LOGIC START */
+function fmtNum(x, maxDp) {
+  if (maxDp === undefined) maxDp = 4;
+  if (!isFinite(x)) return "—";
+  var p = Math.pow(10, maxDp);
+  var r = Math.round((x + Number.EPSILON) * p) / p;
+  if (r === 0) return "0";
+  return r.toLocaleString("en-US", { maximumFractionDigits: maxDp });
+}
+
+var CONVERSIONS = [
+  { id: "c2f",  title: "Celsius to Fahrenheit", from: "°C", to: "°F", fn: function (c) { return c * 9 / 5 + 32; },   formula: "°F = °C × 9/5 + 32",   start: 37 },
+  { id: "f2c",  title: "Fahrenheit to Celsius", from: "°F", to: "°C", fn: function (f) { return (f - 32) * 5 / 9; }, formula: "°C = (°F − 32) × 5/9", start: 98.6 },
+  { id: "m2ft", title: "Meters to Feet",        from: "m",  to: "ft", fn: function (m) { return m / 0.3048; },       formula: "ft = m ÷ 0.3048",      start: 1.75 },
+  { id: "ft2m", title: "Feet to Meters",        from: "ft", to: "m",  fn: function (ft) { return ft * 0.3048; },     formula: "m = ft × 0.3048",      start: 6 }
+];
+
+function tempRemark(celsius) {
+  if (celsius <= 0) return "Freezing! Bring a jacket.";
+  if (celsius <= 15) return "Chilly. Maybe a sweater.";
+  if (celsius <= 25) return "Comfortable. Lovely weather.";
+  if (celsius <= 35) return "Warm. Stay hydrated.";
+  if (celsius < 100) return "Really hot. Careful!";
+  return "Boiling water territory.";
+}
+function lengthRemark(meters) {
+  if (!(meters > 0)) return "";
+  if (meters >= 3.05) return "About " + fmtNum(meters / 3.05, 1) + "× the height of a basketball ring.";
+  return "About " + fmtNum(meters / 2, 1) + "× the height of a standard door.";
+}
+
+var BRACKETS = [
+  { from: 0,       to: 250000,   base: 0,       rate: 0 },
+  { from: 250000,  to: 400000,   base: 0,       rate: 0.15 },
+  { from: 400000,  to: 800000,   base: 22500,   rate: 0.20 },
+  { from: 800000,  to: 2000000,  base: 102500,  rate: 0.25 },
+  { from: 2000000, to: 8000000,  base: 402500,  rate: 0.30 },
+  { from: 8000000, to: Infinity, base: 2202500, rate: 0.35 }
+];
+
+function computeTax(income) {
+  var tax = 0, rows = [];
+  for (var i = 0; i < BRACKETS.length; i++) {
+    var b = BRACKETS[i];
+    var portion = Math.max(0, Math.min(income, b.to) - b.from);
+    var t = portion * b.rate;
+    tax += t;
+    rows.push({ from: b.from, to: b.to, base: b.base, rate: b.rate, portion: portion, tax: t });
+  }
+  return { tax: tax, rows: rows };
+}
+
+function factorialWhile(n) {
+  var i = n, result = 1n;
+  while (i > 1) { result *= BigInt(i); i--; }
+  return result;
+}
+function sumDoWhile(n) {
+  var i = 1, sum = 0;
+  do { sum += i; i++; } while (i <= n);
+  return sum;
+}
+function averageFor(n) {
+  var total = 0;
+  for (var i = 1; i <= n; i++) { total += i; }
+  return total / n;
+}
+function loopTrace(kind, n, value) {
+  var short = n <= 10, i, parts = [];
+  if (kind === "factorial") {
+    if (short) { for (i = n; i >= 1; i--) parts.push(i); return n + "! = " + parts.join(" × ") + " = " + value; }
+    return n + "! = " + n + " × " + (n - 1) + " × " + (n - 2) + " × … × 2 × 1";
+  }
+  if (kind === "sum") {
+    if (short) { for (i = 1; i <= n; i++) parts.push(i); return parts.join(" + ") + " = " + value; }
+    return "1 + 2 + 3 + … + " + n + " = " + value;
+  }
+  return value.sum + " ÷ " + n + " = " + value.avg;
+}
+
+var OT_MULTIPLIER = 1.25;
+function round2(x) { return Math.round((x + Number.EPSILON) * 100) / 100; }
+function computePayroll(p) {
+  var regular = round2(p.hours * p.rate);
+  var overtime = round2(p.otHours * p.rate * OT_MULTIPLIER);
+  var gross = round2(regular + overtime);
+  var sss = round2(gross * p.sssPct / 100);
+  var ph = round2(gross * p.phPct / 100);
+  var pagibig = round2(p.pagibig);
+  var tax = round2(gross * p.taxPct / 100);
+  var totalDed = round2(sss + ph + pagibig + tax);
+  var net = round2(gross - totalDed);
+  return { regular: regular, overtime: overtime, gross: gross, sss: sss, ph: ph, pagibig: pagibig, tax: tax, totalDed: totalDed, net: net };
+}
+/* LOGIC END */
+</script>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  };
+  var peso = function (x) { return "₱" + x.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); };
+  var pesoWhole = function (x) { return "₱" + x.toLocaleString("en-US", { maximumFractionDigits: 0 }); };
+  var readNum = function (id) { var raw = $(id).value.trim(); return raw === "" ? NaN : Number(raw); };
+
+  /* ---------- Confetti ---------- */
+  var COLORS = ["#FF7A59", "#FFD23F", "#5CD6B0", "#FF84BC", "#6CB8FF"];
+  function burst(el) {
+    try {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !el || !el.animate) return;
+      var r = el.getBoundingClientRect();
+      var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      for (var i = 0; i < 22; i++) {
+        (function (i) {
+          var s = document.createElement("span");
+          s.className = "confetti";
+          s.style.left = cx + "px";
+          s.style.top = cy + "px";
+          s.style.background = COLORS[i % COLORS.length];
+          document.body.appendChild(s);
+          var ang = Math.random() * Math.PI * 2, dist = 60 + Math.random() * 90;
+          var anim = s.animate([
+            { transform: "translate(0px,0px) rotate(0deg)", opacity: 1 },
+            { transform: "translate(" + Math.cos(ang) * dist + "px," + (Math.sin(ang) * dist + 40) + "px) rotate(" + Math.random() * 540 + "deg)", opacity: 0 }
+          ], { duration: 700 + Math.random() * 400, easing: "cubic-bezier(.2,.8,.3,1)" });
+          anim.onfinish = function () { s.remove(); };
+        })(i);
+      }
+    } catch (e) {}
+  }
+  function onSubmit(form, fn) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      fn();
+      burst(e.submitter || form.querySelector("button[type=submit]"));
+    });
+  }
+
+  /* ---------- Bar ---------- */
+  function barHtml(parts) {
+    var total = parts.reduce(function (s, p) { return s + p.amount; }, 0);
+    if (!(total > 0)) return "";
+    var segs = parts.filter(function (p) { return p.amount > 0; }).map(function (p) {
+      return '<span style="width:' + (p.amount / total * 100) + '%;background:' + p.color + '"></span>';
+    }).join("");
+    var legend = parts.map(function (p) {
+      return '<span><i style="background:' + p.color + '"></i>' + p.label + " " + peso(p.amount) + "</span>";
+    }).join("");
+    return '<div class="bar" role="img" aria-label="Split of ' + peso(total) + '">' + segs + '</div><div class="legend">' + legend + "</div>";
+  }
+
+  /* ---------- Navigation ---------- */
+  var views = Array.prototype.slice.call(document.querySelectorAll("[data-view]"));
+  function show(name) {
+    var target = views.some(function (v) { return v.id === name; }) ? name : "home";
+    views.forEach(function (v) { v.hidden = v.id !== target; });
+    try { window.scrollTo(0, 0); } catch (e) {}
+  }
+  function fromHash() { show((location.hash || "#home").slice(1)); }
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest("[data-nav]");
+    if (!a) return;
+    e.preventDefault();
+    var name = a.getAttribute("data-nav");
+    try { location.hash = name; } catch (err) {}
+    show(name);
+  });
+  window.addEventListener("hashchange", fromHash);
+
+  /* ---------- Assignment 1: Conversion ---------- */
+  $("conv-grid").innerHTML = CONVERSIONS.map(function (c) {
+    return '<form class="card" id="form-' + c.id + '" novalidate>' +
+      '<h3>' + c.title + '</h3>' +
+      '<p class="formula-line">' + c.formula + '</p>' +
+      '<div class="row"><div class="field grow"><label for="in-' + c.id + '">Value in ' + c.from + '</label>' +
+      '<input id="in-' + c.id + '" type="number" inputmode="decimal" step="any" value="' + c.start + '"></div>' +
+      '<button class="btn" type="submit">Convert</button></div>' +
+      '<div id="out-' + c.id + '" aria-live="polite"></div></form>';
+  }).join("");
+
+  function convert(c) {
+    var raw = $("in-" + c.id).value.trim();
+    var out = $("out-" + c.id);
+    var v = Number(raw);
+    if (raw === "" || !isFinite(v)) { out.innerHTML = '<div class="out"><span class="msg err">Enter a number to convert.</span></div>'; return; }
+    var result = c.fn(v), remark = "";
+    if (c.id === "c2f") remark = tempRemark(v);
+    if (c.id === "f2c") remark = tempRemark(result);
+    if (c.id === "m2ft") remark = lengthRemark(v);
+    if (c.id === "ft2m") remark = lengthRemark(result);
+    out.innerHTML = '<div class="out">' + esc(fmtNum(v)) + " " + c.from + " = <strong>" + esc(fmtNum(result)) + " " + c.to + "</strong></div>" +
+      (remark ? '<p class="remark">' + esc(remark) + "</p>" : "");
+  }
+  CONVERSIONS.forEach(function (c) {
+    onSubmit($("form-" + c.id), function () { convert(c); });
+    $("in-" + c.id).addEventListener("input", function () { convert(c); });
+    convert(c);
+  });
+
+  /* ---------- Assignment 2: Income tax ---------- */
+  function renderTax() {
+    var out = $("tax-out");
+    var v = readNum("tax-income");
+    if (!isFinite(v) || v < 0) { out.innerHTML = '<p class="msg err">Enter an income of zero or more.</p>'; return; }
+    var annual = $("tax-period").value === "monthly" ? v * 12 : v;
+    var res = computeTax(annual);
+    var eff = annual > 0 ? res.tax / annual * 100 : 0;
+    var topIdx = 0;
+    res.rows.forEach(function (r, i) { if (annual > r.from) topIdx = i; });
+    var b = res.rows[topIdx];
+    var line = b.rate === 0
+      ? "Income up to " + pesoWhole(b.to) + " is not taxed."
+      : "Your bracket: " + peso(b.base) + " + " + Math.round(b.rate * 100) + "% of the amount over " + pesoWhole(b.from) + ".";
+    var rowsHtml = res.rows.map(function (r, i) {
+      var range = r.to === Infinity ? "Over " + pesoWhole(r.from) : pesoWhole(r.from) + " to " + pesoWhole(r.to);
+      return '<tr' + (i === topIdx ? ' class="top"' : '') + '><td>' + range + '</td><td class="num">' + Math.round(r.rate * 100) + '%</td><td class="num">' + peso(r.portion) + '</td><td class="num">' + peso(r.tax) + '</td></tr>';
+    }).join("");
+    var keepPer100 = annual > 0 ? 100 - eff : 100;
+    out.innerHTML =
+      '<dl class="stats">' +
+      '<div><dt>Taxable income per year</dt><dd>' + peso(annual) + '</dd></div>' +
+      '<div class="hot"><dt>Income tax per year</dt><dd>' + peso(res.tax) + '</dd></div>' +
+      '<div><dt>Income tax per month</dt><dd>' + peso(res.tax / 12) + '</dd></div>' +
+      '<div><dt>Effective tax rate</dt><dd>' + fmtNum(eff, 2) + '%</dd></div>' +
+      '<div><dt>Income after tax per year</dt><dd>' + peso(annual - res.tax) + '</dd></div>' +
+      '</dl>' +
+      barHtml([{ label: "You keep", amount: annual - res.tax, color: "#5CD6B0" }, { label: "Tax", amount: res.tax, color: "#FF7A59" }]) +
+      '<p class="remark">You keep ' + peso(keepPer100) + ' of every ₱100 you earn.</p>' +
+      '<p class="formula-line">' + line + '</p>' +
+      '<div class="table-scroll"><table><thead><tr><th>Taxable income range</th><th class="num">Rate</th><th class="num">Income in range</th><th class="num">Tax</th></tr></thead>' +
+      '<tbody>' + rowsHtml + '</tbody>' +
+      '<tfoot><tr class="sum"><td colspan="3">Total income tax per year</td><td class="num">' + peso(res.tax) + '</td></tr></tfoot></table></div>' +
+      '<p class="note">These are the graduated individual income tax rates in force from 2023 (TRAIN Law). Enter taxable income, meaning income after allowable deductions. Check the current rates with the BIR before relying on the result.</p>';
+  }
+  onSubmit($("tax-form"), renderTax);
+  $("tax-form").addEventListener("input", renderTax);
+  renderTax();
+
+  /* ---------- Assignment 3: Loops ---------- */
+  function renderLoops() {
+    var out = $("loops-out");
+    var raw = $("loops-n").value.trim();
+    var n = Number(raw);
+    if (raw === "" || !Number.isInteger(n) || n < 1 || n > 1000) {
+      out.innerHTML = '<div class="card"><p class="msg err">Enter a whole number from 1 to 1000.</p></div>';
+      return;
+    }
+    var fact = factorialWhile(n);
+    var factStr = fact.toString();
+    var sum = sumDoWhile(n);
+    var avg = averageFor(n);
+
+    var factValue = factStr.length > 24
+      ? '<p class="remark">Whoa, that is a ' + factStr.length.toLocaleString("en-US") + '-digit number.</p><div class="result-scroll">' + factStr + '</div>'
+      : '<div class="result-big">' + Number(factStr).toLocaleString("en-US") + '</div>';
+
+    out.innerHTML = '<div class="grid">' +
+      '<div class="card c1"><span class="sticker">While loop</span><h3>Factorial of ' + n + '</h3>' + factValue +
+      '<p class="trace">' + esc(loopTrace("factorial", n, factStr)) + '</p>' +
+      '<pre>let i = n, result = 1n;\nwhile (i &gt; 1) {\n  result *= BigInt(i);\n  i--;\n}</pre></div>' +
+      '<div class="card c2"><span class="sticker">Do-while loop</span><h3>Sum of 1 to ' + n + '</h3>' +
+      '<div class="result-big">' + sum.toLocaleString("en-US") + '</div>' +
+      '<p class="trace">' + esc(loopTrace("sum", n, sum.toLocaleString("en-US"))) + '</p>' +
+      '<pre>let i = 1, sum = 0;\ndo {\n  sum += i;\n  i++;\n} while (i &lt;= n);</pre></div>' +
+      '<div class="card c5"><span class="sticker">For loop</span><h3>Average of 1 to ' + n + '</h3>' +
+      '<div class="result-big">' + esc(fmtNum(avg)) + '</div>' +
+      '<p class="trace">' + esc(loopTrace("average", n, { sum: sum.toLocaleString("en-US"), avg: fmtNum(avg) })) + '</p>' +
+      '<pre>let total = 0;\nfor (let i = 1; i &lt;= n; i++) {\n  total += i;\n}\nconst average = total / n;</pre></div>' +
+      '</div>';
+  }
+  $("loops-chips").innerHTML = '<span class="hint">Quick picks</span>' + [3, 5, 10, 20, 50, 100, 1000].map(function (n) {
+    return '<button type="button" class="chip" data-n="' + n + '">' + n + '</button>';
+  }).join("");
+  $("loops-chips").addEventListener("click", function (e) {
+    var chip = e.target.closest(".chip");
+    if (!chip) return;
+    $("loops-n").value = chip.getAttribute("data-n");
+    renderLoops();
+    burst(chip);
+  });
+  onSubmit($("loops-form"), renderLoops);
+  $("loops-form").addEventListener("input", renderLoops);
+  renderLoops();
+
+  /* ---------- Assignment 4: Payroll ---------- */
+  function renderPayroll() {
+    var out = $("pay-out");
+    var p = {
+      hours: readNum("pr-hours"), otHours: readNum("pr-ot"), rate: readNum("pr-rate"),
+      sssPct: readNum("pr-sss"), phPct: readNum("pr-ph"), pagibig: readNum("pr-pagibig"), taxPct: readNum("pr-tax")
+    };
+    var name = $("pr-name").value.trim() || "Employee";
+    var bad = Object.keys(p).some(function (k) { return !isFinite(p[k]) || p[k] < 0; });
+    if (bad) { out.innerHTML = '<p class="msg err">Fill in every number field with zero or more.</p>'; return; }
+    if (p.sssPct > 100 || p.phPct > 100 || p.taxPct > 100) { out.innerHTML = '<p class="msg err">Percentages cannot be more than 100.</p>'; return; }
+    var r = computePayroll(p);
+    var row = function (label, detail, amount, cls) {
+      return '<tr' + (cls ? ' class="' + cls + '"' : '') + '><td>' + label + (detail ? ' <span class="hint">' + detail + '</span>' : '') + '</td><td class="num">' + amount + '</td></tr>';
+    };
+    var pct = r.gross > 0 ? r.net / r.gross * 100 : 0;
+    out.innerHTML =
+      '<div><span class="sticker">Payslip</span><h3 style="font-size:1.6rem;margin-top:12px">' + esc(name) + '</h3></div>' +
+      '<div class="takehome"><span class="hint">Take-home pay</span><strong>' + peso(r.net) + '</strong><span class="remark">' + fmtNum(pct, 1) + '% of your gross pay lands in your pocket.</span></div>' +
+      barHtml([
+        { label: "Net pay", amount: Math.max(r.net, 0), color: "#5CD6B0" },
+        { label: "SSS", amount: r.sss, color: "#FFD23F" },
+        { label: "PhilHealth", amount: r.ph, color: "#FF7A59" },
+        { label: "Pag-IBIG", amount: r.pagibig, color: "#6CB8FF" },
+        { label: "Tax", amount: r.tax, color: "#FF84BC" }
+      ]) +
+      '<div class="table-scroll"><table><tbody>' +
+      '<tr class="group"><td colspan="2">Earnings</td></tr>' +
+      row("Regular pay", esc(fmtNum(p.hours, 2)) + " h × " + peso(p.rate), peso(r.regular)) +
+      row("Overtime pay", esc(fmtNum(p.otHours, 2)) + " h × " + peso(p.rate) + " × 1.25", peso(r.overtime)) +
+      row("Gross pay", "", peso(r.gross), "sum") +
+      '<tr class="group"><td colspan="2">Deductions</td></tr>' +
+      row("SSS", esc(fmtNum(p.sssPct, 2)) + "% of gross", peso(r.sss)) +
+      row("PhilHealth", esc(fmtNum(p.phPct, 2)) + "% of gross", peso(r.ph)) +
+      row("Pag-IBIG", "fixed", peso(r.pagibig)) +
+      row("Withholding tax", esc(fmtNum(p.taxPct, 2)) + "% of gross", peso(r.tax)) +
+      row("Total deductions", "", peso(r.totalDed), "sum") +
+      row("Net pay", "", peso(r.net), "net") +
+      '</tbody></table></div>' +
+      (r.net < 0 ? '<p class="msg err">Deductions are larger than gross pay. Check the deduction values.</p>' : '');
+  }
+  onSubmit($("pay-form"), renderPayroll);
+  $("pay-form").addEventListener("input", renderPayroll);
+  renderPayroll();
+
+  fromHash();
+})();
+</script>
+
+</body></html>
